@@ -1,10 +1,10 @@
 import React from 'react';
+import ControlPanel from "./ControlPanel";
 
 export default function HomePage() {
     return (
         <div>
-            <h1>Home Page</h1>
-            <p>This is the home page for conducting tests.</p>
+            <ControlPanel />
         </div>
     )
 }

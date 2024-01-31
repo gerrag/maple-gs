@@ -7,7 +7,7 @@ function App() {
   return (
     <div>
       <Navbar expand="lg" className="bg-body-tertiary">
-        <Container>
+        <Container fluid>
           <Navbar.Brand>G08 MAPLE Ground Station</Navbar.Brand>
         </Container>
       </Navbar>
