@@ -1,5 +1,5 @@
 import React from "react";
-import { Tabs, Tab, Navbar, Container } from 'react-bootstrap';
+import { Tabs, Tab, Navbar, Container } from "react-bootstrap";
 import HomePage from "./components/HomePage";
 import PastTestPage from "./components/PastTestPage";
 
@@ -12,12 +12,7 @@ function App() {
         </Container>
       </Navbar>
 
-      <Tabs
-        defaultActiveKey="home"
-        id="gsTabs"
-        className="mb-3"
-        justify
-      >
+      <Tabs defaultActiveKey="home" id="gsTabs" className="mb-3" justify>
         <Tab eventKey="home" title="Home">
           <HomePage />
         </Tab>
