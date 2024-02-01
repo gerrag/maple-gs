@@ -1,10 +1,21 @@
 import React from "react";
+import { Row, Col } from "react-bootstrap";
+import ControlPanel from "./ControlPanel";
+import Graphs from "./Graphs";
 
 export default function HomePage() {
   return (
     <div>
-      <h1>Past Test Page</h1>
-      <p>This is to help view previous tests.</p>
+      <Row>
+        <Col>
+          <ControlPanel />
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Graphs />
+        </Col>
+      </Row>
     </div>
   );
 }
