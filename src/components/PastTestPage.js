@@ -1,6 +1,7 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 import ControlPanel from "./ControlPanel";
+import DataPanel from "./DataPanel";
 import Graphs from "./Graphs";
 
 export default function HomePage() {
@@ -8,7 +9,7 @@ export default function HomePage() {
     <div>
       <Row>
         <Col>
-          <ControlPanel />
+          <DataPanel />
         </Col>
       </Row>
       <Row>

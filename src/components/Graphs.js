@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import { Row, Col, Button, Card, Form, } from "react-bootstrap";
+import { Row, Col, Button, Card, Form } from "react-bootstrap";
 import {
   LineChart,
   Line,
@@ -24,15 +24,16 @@ export default function Graphs() {
     <Card className="m-4">
       <Card.Body>
         <Card.Title>Collected Data</Card.Title>
-        <div className='m-5' height='100%' width='100%'>
-            <LineChart height={300} width={1400} data={data}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line type="monotone" dataKey="value" stroke="#82ca9d" />
-            </LineChart>
+        <div className="m-5" height="100%" width="100%">
+          <h3>Accelerometer Data</h3>
+          <LineChart height={300} width={1400} data={data}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Line type="monotone" dataKey="value" stroke="#82ca9d" />
+          </LineChart>
         </div>
       </Card.Body>
     </Card>
