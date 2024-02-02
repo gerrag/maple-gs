@@ -26,7 +26,7 @@ export default function Graphs() {
         <Card.Title>Collected Data</Card.Title>
         <div className="m-5" height="100%" width="100%">
           <h3>Accelerometer Data</h3>
-          <LineChart height={300} width={1400} data={data}>
+          <LineChart id="accelChart" height={300} width={1400} data={data}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
             <YAxis />

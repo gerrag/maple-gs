@@ -9,10 +9,10 @@ export default function DataPanel() {
         <Row className="my-3 text-center">
           <Col sm={2}>
             <Dropdown>
-              <Dropdown.Toggle variant="secondary" id="">
+              <Dropdown.Toggle id="dataPanelToggle" variant="secondary">
                 Choose Dataset
               </Dropdown.Toggle>
-              <Dropdown.Menu>
+              <Dropdown.Menu id="dataPanelMenu">
                 <Dropdown.Item>
                   Test Item 1
                 </Dropdown.Item>
@@ -24,6 +24,7 @@ export default function DataPanel() {
           </Col>
           <Col sm={10}>
             <Form.Control
+              id="currentDataText"
               as="textarea"
               style={{ height: "25px" }}
               disabled
@@ -34,6 +35,7 @@ export default function DataPanel() {
         <Row className="my-3">
           <Col>
             <Form.Control
+              id="rawDataText"
               as="textarea"
               style={{ height: "100px" }}
               disabled

@@ -8,16 +8,36 @@ export default function ControlPanel() {
         <Card.Title>Control Panel</Card.Title>
         <Row className="my-3">
           <Col className="text-center">
-            <Button className="m-3" variant="secondary" size="lg">
+            <Button
+              id="validateSystemBtn"
+              className="m-3"
+              variant="secondary"
+              size="lg"
+            >
               Validate System
             </Button>
-            <Button className="m-3" variant="secondary" size="lg">
+            <Button
+              id="startHeartbeatBtn"
+              className="m-3"
+              variant="secondary"
+              size="lg"
+            >
               Start Heartbeat
             </Button>
-            <Button className="m-3" variant="secondary" size="lg">
+            <Button
+              id="beginDropBtn"
+              className="m-3"
+              variant="secondary"
+              size="lg"
+            >
               Begin Drop Test
             </Button>
-            <Button className="m-3" variant="secondary" size="lg">
+            <Button
+              id="endDropBtn"
+              className="m-3"
+              variant="secondary"
+              size="lg"
+            >
               End Drop Test
             </Button>
           </Col>
@@ -25,6 +45,7 @@ export default function ControlPanel() {
         <Row className="my-3">
           <Col>
             <Form.Control
+              id="statusText"
               as="textarea"
               style={{ height: "25px" }}
               disabled
@@ -33,6 +54,7 @@ export default function ControlPanel() {
           </Col>
           <Col>
             <Form.Control
+              id="heartbeatText"
               as="textarea"
               style={{ height: "25px" }}
               disabled
@@ -43,6 +65,7 @@ export default function ControlPanel() {
         <Row className="my-3">
           <Col>
             <Form.Control
+              id="logText"
               as="textarea"
               style={{ height: "100px" }}
               disabled
