@@ -13,12 +13,13 @@ const createWindow = () => {
     height: 1200,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+      nodeIntegration: true, // Enable Node.js integration
+      contextIsolation: false,
     },
   });
 
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
-
 };
 
 // This method will be called when Electron has finished

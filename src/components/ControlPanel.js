@@ -1,5 +1,6 @@
 import React from "react";
 import { Row, Col, Button, Card, Form } from "react-bootstrap";
+import { sendXbee } from "./../comms_write.js";
 
 export default function ControlPanel() {
   return (
@@ -13,6 +14,9 @@ export default function ControlPanel() {
               className="m-3"
               variant="secondary"
               size="lg"
+              onClick={() =>{
+                sendXbee("It works!")
+              }}
             >
               Validate System
             </Button>
