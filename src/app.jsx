@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { ipcRenderer } from "electron";
 import { Tabs, Tab, Navbar, Container } from "react-bootstrap";
 import HomePage from "./components/HomePage";
 import PastTestPage from "./components/PastTestPage";
@@ -19,6 +20,18 @@ function App() {
   const updateLog = (msg) => {
     setLogText(logText + "\n" + getCurDateTime() + msg);
   };
+
+  // useEffect(() => {
+  //   ipcRenderer.on('addToLog', (event, msg) => {
+  //     console.log(msg)
+  //     updateLog(msg);
+  //   });
+
+  //   //cleanup
+  //   return () => {
+  //     ipcRenderer.removeAllListeners('addToLog');
+  //   }
+  // }, []);
 
   return (
     <div>

@@ -8,6 +8,7 @@
 
 //const { execSync } = require('child_process');
 //const { ipcRenderer } = require('electron');
+//const { ipcRenderer } = require('electron');
 const SerialPort = require('serialport').SerialPort;
 const port = new SerialPort({
   path: '/dev/tty-usbserial1',
@@ -31,7 +32,8 @@ port.on('close', () => {
 
 // Send a message to the XBee
 export function sendXbee(msg) {
-  console.log(msg)
+  console.log("sending the message: " +msg);
+  //ipcRenderer.send('addToLog', 'myarg');
   port.write(msg, (err) => {
     if (err){
       console.err('Error writing to the serial port:', err);

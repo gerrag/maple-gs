@@ -16,10 +16,11 @@ export default function ControlPanel({ logText, updateLog }) {
               variant="secondary"
               size="lg"
               onClick={() => {
-                sendXbee("It works!");
+                sendXbee("com_burn"); //TODO change this back to validate
+                updateLog("\"Validate Systems\" button pressed.");
               }}
             >
-              Validate System
+              Validate System (set to burn wire)
             </Button>
             <Button
               id="startHeartbeatBtn"
@@ -27,7 +28,8 @@ export default function ControlPanel({ logText, updateLog }) {
               variant="secondary"
               size="lg"
               onClick={() => {
-                updateLog("It works!");
+                sendXbee("com_hrtb");
+                updateLog("\"Start Heartbeat\" button pressed.");
               }}
             >
               Start Heartbeat
@@ -37,6 +39,10 @@ export default function ControlPanel({ logText, updateLog }) {
               className="m-3"
               variant="secondary"
               size="lg"
+              onClick={() => {
+                sendXbee("com_strt");
+                updateLog("\"Begin Drop Test\" button pressed.");
+              }}
             >
               Begin Drop Test
             </Button>
@@ -45,6 +51,10 @@ export default function ControlPanel({ logText, updateLog }) {
               className="m-3"
               variant="secondary"
               size="lg"
+              onClick={() => {
+                sendXbee("com_stop");
+                updateLog("\"End Drop Test\" button pressed.");
+              }}
             >
               End Drop Test
             </Button>
