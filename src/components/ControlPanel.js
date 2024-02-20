@@ -1,7 +1,9 @@
 import React from "react";
 import { Row, Col, Button, Card, Form } from "react-bootstrap";
+import LogTextArea from "./LogTextArea.js";
+import { sendXbee } from "./../comms_write.js";
 
-export default function ControlPanel() {
+export default function ControlPanel({ logText, updateLog }) {
   return (
     <Card className="m-4">
       <Card.Body>
@@ -13,14 +15,22 @@ export default function ControlPanel() {
               className="m-3"
               variant="secondary"
               size="lg"
+              onClick={() => {
+                sendXbee("com_burn"); //TODO change this back to validate
+                updateLog("\"Validate Systems\" button pressed.");
+              }}
             >
-              Validate System
+              Validate System (set to burn wire)
             </Button>
             <Button
               id="startHeartbeatBtn"
               className="m-3"
               variant="secondary"
               size="lg"
+              onClick={() => {
+                sendXbee("com_hrtb");
+                updateLog("\"Start Heartbeat\" button pressed.");
+              }}
             >
               Start Heartbeat
             </Button>
@@ -29,6 +39,10 @@ export default function ControlPanel() {
               className="m-3"
               variant="secondary"
               size="lg"
+              onClick={() => {
+                sendXbee("com_strt");
+                updateLog("\"Begin Drop Test\" button pressed.");
+              }}
             >
               Begin Drop Test
             </Button>
@@ -37,6 +51,10 @@ export default function ControlPanel() {
               className="m-3"
               variant="secondary"
               size="lg"
+              onClick={() => {
+                sendXbee("com_stop");
+                updateLog("\"End Drop Test\" button pressed.");
+              }}
             >
               End Drop Test
             </Button>
@@ -64,13 +82,7 @@ export default function ControlPanel() {
         </Row>
         <Row className="my-3">
           <Col>
-            <Form.Control
-              id="logText"
-              as="textarea"
-              style={{ height: "100px" }}
-              disabled
-              value={"---- Beginning of Log ----"}
-            ></Form.Control>
+            <LogTextArea id="logTextArea" logText={logText}></LogTextArea>
           </Col>
         </Row>
       </Card.Body>

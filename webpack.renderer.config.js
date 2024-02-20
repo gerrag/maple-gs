@@ -10,4 +10,10 @@ module.exports = {
   module: {
     rules,
   },
+  externals: {
+    "serialport": "./releases/app/node_modules/serialport",
+  },
+  output: {
+    libraryTarget: 'commonjs2',
+  }
 };
