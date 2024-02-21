@@ -1,9 +1,8 @@
 import React from "react";
 import { Row, Col, Button, Card, Form } from "react-bootstrap";
 import LogTextArea from "./LogTextArea.js";
-import { sendXbee } from "./../comms_write.js";
 
-export default function ControlPanel({ logText, updateLog }) {
+export default function ControlPanel({ logText, updateLog, sendXbee }) {
   return (
     <Card className="m-4">
       <Card.Body>

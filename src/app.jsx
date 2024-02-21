@@ -4,19 +4,42 @@ import { Tabs, Tab, Navbar, Container } from "react-bootstrap";
 import HomePage from "./components/HomePage";
 import PastTestPage from "./components/PastTestPage";
 const SerialPort = require("serialport").SerialPort;
+const port = new SerialPort({
+  path: "/dev/ttyUSB0",
+  baudRate: 115200,
+});
 
 function App() {
   const [logText, setLogText] = useState("--- Beginning of Log ---");
 
-  const port = new SerialPort({
-    path: "/dev/ttyUSB0",
-    baudRate: 115200,
-  });
-
   // Listen for data from the serial port
   port.on("data", (data) => {
-    setLogText("Received data:", data.toString());
+    updateLog("Received data: " + data.toString());
   });
+
+  // Handles errors
+  port.on("error", (err) => {
+    console.error("Serial port error:", err);
+  });
+
+  // Handles close
+  port.on("close", () => {
+    console.error("Serial port closed.");
+  });
+
+  // Send a message to the XBee
+  function sendXbee(msg) {
+    console.log("sending the message: " + msg);
+    //ipcRenderer.send('addToLog', 'myarg');
+    port.write(msg, (err) => {
+      if (err) {
+        console.err("Error writing to the serial port:", err);
+        console.log(msg);
+      } else {
+        console.log("writing message to XBee:", msg);
+      }
+    });
+  }
 
   const getCurDateTime = () => {
     var curDate = new Date();
@@ -54,7 +77,7 @@ function App() {
 
       <Tabs defaultActiveKey="home" id="gsTabs" className="mb-3" justify>
         <Tab eventKey="home" title="Home">
-          <HomePage logText={logText} updateLog={updateLog} />
+          <HomePage logText={logText} updateLog={updateLog} sendXbee={sendXbee}/>
         </Tab>
         <Tab eventKey="pastTest" title="pastTest">
           <PastTestPage />
