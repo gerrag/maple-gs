@@ -7,8 +7,7 @@
  */
 
 //const { execSync } = require('child_process');
-//const { ipcRenderer } = require('electron');
-//const { ipcRenderer } = require('electron');
+// const { ipcRenderer } = require('electron');
 const SerialPort = require("serialport").SerialPort;
 const port = new SerialPort({
   path: "/dev/ttyUSB0",
