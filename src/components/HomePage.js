@@ -4,7 +4,7 @@ import ControlPanel from "./ControlPanel";
 import Graphs from "./Graphs";
 import { log } from "util";
 
-export default function HomePage({ logText, updateLog, sendXbee }) {
+export default function HomePage({ logText, updateLog, sendXbee, port }) {
   return (
     <div>
       <Row>
@@ -13,6 +13,7 @@ export default function HomePage({ logText, updateLog, sendXbee }) {
             logText={logText}
             updateLog={updateLog}
             sendXbee={sendXbee}
+            port={port}
           />
         </Col>
       </Row>

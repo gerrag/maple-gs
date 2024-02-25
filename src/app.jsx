@@ -77,7 +77,7 @@ function App() {
 
       <Tabs defaultActiveKey="home" id="gsTabs" className="mb-3" justify>
         <Tab eventKey="home" title="Home">
-          <HomePage logText={logText} updateLog={updateLog} sendXbee={sendXbee}/>
+          <HomePage logText={logText} updateLog={updateLog} sendXbee={sendXbee} port={port}/>
         </Tab>
         <Tab eventKey="pastTest" title="pastTest">
           <PastTestPage />

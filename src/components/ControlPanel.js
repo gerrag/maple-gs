@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col, Button, Card, Form } from "react-bootstrap";
 import LogTextArea from "./LogTextArea.js";
 
-export default function ControlPanel({ logText, updateLog, sendXbee }) {
+export default function ControlPanel({ logText, updateLog, sendXbee, port }) {
   return (
     <Card className="m-4">
       <Card.Body>
@@ -56,6 +56,17 @@ export default function ControlPanel({ logText, updateLog, sendXbee }) {
               }}
             >
               End Drop Test
+            </Button>
+            <Button
+              id="closePortBtn"
+              className="m-3"
+              variant="danger"
+              size="lg"
+              onClick={() => {
+                port.close();
+              }}
+            >
+              Close Port
             </Button>
           </Col>
         </Row>
