@@ -27,11 +27,71 @@ function App() {
     console.error("Serial port closed.");
   });
 
+  // TODO Create message to send
+  // This will be hard coded for the final test
+  function createMessage(msg) {
+    var msgArray = [0x7e, 0x00, 0x16, 0x10, 0x01];
+
+    /*
+    // proto mac address
+    msgArray.push(0x00);
+    msgArray.push(0x13);
+    msgArray.push(0xA2);
+    msgArray.push(0x00);
+    msgArray.push(0x42);
+    msgArray.push(0x3F);
+    msgArray.push(0x4A);
+    msgArray.push(0xAF);
+    
+    // v2 mac address
+    msgArray.push(0x00);
+    msgArray.push(0x13);
+    msgArray.push(0xA2);
+    msgArray.push(0x00);
+    msgArray.push(0x42);
+    msgArray.push(0x3F);
+    msgArray.push(0x4A);
+    msgArray.push(0xAE);
+    
+    // v3 ac address
+    msgArray.push(0x00);
+    msgArray.push(0x13);
+    msgArray.push(0xA2);
+    msgArray.push(0x00);
+    msgArray.push(0x42);
+    msgArray.push(0x3F);
+    msgArray.push(0x4B);
+    msgArray.push(0x9F);
+    */
+
+    msgArray.push(0xff);
+    msgArray.push(0xfe);
+    msgArray.push(0x00);
+    msgArray.push(0x00);
+
+    // Add message and checksum
+    if(msg == "com_burn") {
+
+    }
+    else if (msg == "com_hrtb") {
+      
+    }
+    else if (msg == "com_hrtb") {
+
+    }
+    else if (msg == "com_hrtb") {
+
+    } else {
+      console.error("ERROR: Cannot create message based on function input.");
+    }
+
+    return msgArray;
+  }
+
   // Send a message to the XBee
   function sendXbee(msg) {
     console.log("sending the message: " + msg);
-    //ipcRenderer.send('addToLog', 'myarg');
-    port.write(msg, (err) => {
+    port.write(createMessage(msg), (err) => {
       if (err) {
         console.err("Error writing to the serial port:", err);
         console.log(msg);
@@ -55,18 +115,6 @@ function App() {
     setLogText(logText + "\n" + getCurDateTime() + msg);
   };
 
-  // useEffect(() => {
-  //   ipcRenderer.on('addToLog', (event, msg) => {
-  //     console.log(msg)
-  //     updateLog(msg);
-  //   });
-
-  //   // //cleanup
-  //   // return () => {
-  //   //   ipcRenderer.removeAllListeners('addToLog');
-  //   // }
-  // }, []);
-
   return (
     <div>
       <Navbar expand="lg" className="bg-body-tertiary">
@@ -77,7 +125,12 @@ function App() {
 
       <Tabs defaultActiveKey="home" id="gsTabs" className="mb-3" justify>
         <Tab eventKey="home" title="Home">
-          <HomePage logText={logText} updateLog={updateLog} sendXbee={sendXbee} port={port}/>
+          <HomePage
+            logText={logText}
+            updateLog={updateLog}
+            sendXbee={sendXbee}
+            port={port}
+          />
         </Tab>
         <Tab eventKey="pastTest" title="pastTest">
           <PastTestPage />
