@@ -3,29 +3,75 @@ import { ipcRenderer } from "electron";
 import { Tabs, Tab, Navbar, Container } from "react-bootstrap";
 import HomePage from "./components/HomePage";
 import PastTestPage from "./components/PastTestPage";
+
 const SerialPort = require("serialport").SerialPort;
-const port = new SerialPort({
-  path: "/dev/ttyUSB0",
-  baudRate: 115200,
-});
+
+var port = null;
+
+// open the serial port on startup
+openSerialPort();
+
+// opens the serial port
+function openSerialPort() {
+  port = new SerialPort({
+    path: "/dev/ttyUSB0",
+    baudRate: 115200,
+  });
+}
 
 function App() {
   const [logText, setLogText] = useState("--- Beginning of Log ---");
+  console.log(port);
+  const [portStatus, setPortStatus] = useState(!!port.port);
 
-  // Listen for data from the serial port
-  port.on("data", (data) => {
-    updateLog("Received data: " + data.toString());
-  });
+  if (portStatus) {
+    // Listen for data from the serial port
+    port.on("data", (data) => {
+      updateLog("Received data: " + data.toString());
+    });
 
-  // Handles errors
-  port.on("error", (err) => {
-    console.error("Serial port error:", err);
-  });
+    // Handles errors
+    port.on("error", (err) => {
+      console.error("Serial port error:", err);
+      updateLog("Serial port error:" + err);
+    });
 
-  // Handles close
-  port.on("close", () => {
-    console.error("Serial port closed.");
-  });
+    // Handles open
+    port.on("open", () => {
+      console.error("Serial port opened.");
+      updateLog("Serial port opened.");
+      setPortStatus(true);
+    });
+
+    // Handles close
+    port.on("close", () => {
+      console.error("Serial port closed.");
+      updateLog("Serial port closed.");
+      setPortStatus(false);
+    });
+  }
+
+  // opens the serial port
+  function openPort() {
+    if(portStatus) {
+      updateLog("ERROR: Attempting to open an already opened port.");
+    }
+    else {
+      openSerialPort();
+      updateLog("Serial port is opened.");
+    }
+  }
+
+  // closes the opened serial port
+  function closePort() {
+    if(!portStatus) {
+      updateLog("ERROR: Attempting to close an already closed port.");
+    }
+    else {
+      port.close();
+      updateLog("Serial port is closed.");
+    }
+  }
 
   // TODO Create message to send
   // This will be hard coded for the final test
@@ -70,17 +116,10 @@ function App() {
     msgArray.push(0x00);
 
     // Add message and checksum
-    if(msg == "com_burn") {
-
-    }
-    else if (msg == "com_hrtb") {
-      
-    }
-    else if (msg == "com_hrtb") {
-
-    }
-    else if (msg == "com_hrtb") {
-
+    if (msg == "com_burn") {
+    } else if (msg == "com_hrtb") {
+    } else if (msg == "com_hrtb") {
+    } else if (msg == "com_hrtb") {
     } else {
       console.error("ERROR: Cannot create message based on function input.");
     }
@@ -129,7 +168,9 @@ function App() {
             logText={logText}
             updateLog={updateLog}
             sendXbee={sendXbee}
-            port={port}
+            portStatus={portStatus}
+            openPort={openPort}
+            closePort={closePort}
           />
         </Tab>
         <Tab eventKey="pastTest" title="pastTest">

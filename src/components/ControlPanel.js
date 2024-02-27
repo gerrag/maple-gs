@@ -2,7 +2,14 @@ import React from "react";
 import { Row, Col, Button, Card, Form } from "react-bootstrap";
 import LogTextArea from "./LogTextArea.js";
 
-export default function ControlPanel({ logText, updateLog, sendXbee, port }) {
+export default function ControlPanel({
+  logText,
+  updateLog,
+  sendXbee,
+  portStatus,
+  openPort,
+  closePort,
+}) {
   return (
     <Card className="m-4">
       <Card.Body>
@@ -16,7 +23,7 @@ export default function ControlPanel({ logText, updateLog, sendXbee, port }) {
               size="lg"
               onClick={() => {
                 sendXbee("com_burn"); //TODO change this back to validate
-                updateLog("\"Validate Systems\" button pressed.");
+                updateLog('"Validate Systems" button pressed.');
               }}
             >
               Validate System (set to burn wire)
@@ -28,7 +35,7 @@ export default function ControlPanel({ logText, updateLog, sendXbee, port }) {
               size="lg"
               onClick={() => {
                 sendXbee("com_hrtb");
-                updateLog("\"Start Heartbeat\" button pressed.");
+                updateLog('"Start Heartbeat" button pressed.');
               }}
             >
               Start Heartbeat
@@ -40,7 +47,7 @@ export default function ControlPanel({ logText, updateLog, sendXbee, port }) {
               size="lg"
               onClick={() => {
                 sendXbee("com_strt");
-                updateLog("\"Begin Drop Test\" button pressed.");
+                updateLog('"Begin Drop Test" button pressed.');
               }}
             >
               Begin Drop Test
@@ -52,7 +59,7 @@ export default function ControlPanel({ logText, updateLog, sendXbee, port }) {
               size="lg"
               onClick={() => {
                 sendXbee("com_stop");
-                updateLog("\"End Drop Test\" button pressed.");
+                updateLog('"End Drop Test" button pressed.');
               }}
             >
               End Drop Test
@@ -60,10 +67,21 @@ export default function ControlPanel({ logText, updateLog, sendXbee, port }) {
             <Button
               id="closePortBtn"
               className="m-3"
+              variant="success"
+              size="lg"
+              onClick={() => {
+                openPort();
+              }}
+            >
+              Open Port
+            </Button>
+            <Button
+              id="closePortBtn"
+              className="m-3"
               variant="danger"
               size="lg"
               onClick={() => {
-                port.close();
+                closePort();
               }}
             >
               Close Port
@@ -77,7 +95,11 @@ export default function ControlPanel({ logText, updateLog, sendXbee, port }) {
               as="textarea"
               style={{ height: "25px" }}
               disabled
-              value={"Status:   Not Connected"}
+              value={
+                portStatus
+                  ? "Serial Port Status:   Connected"
+                  : "Serial Port Status:   Not Connected"
+              }
             ></Form.Control>
           </Col>
           <Col>
