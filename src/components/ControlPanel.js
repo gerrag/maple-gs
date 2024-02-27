@@ -17,25 +17,27 @@ export default function ControlPanel({
         <Row className="my-3">
           <Col className="text-center">
             <Button
-              id="validateSystemBtn"
+              id="burnWireBtn"
               className="m-3"
               variant="secondary"
               size="lg"
+              disabled={!portStatus}
               onClick={() => {
-                sendXbee("com_burn"); //TODO change this back to validate
-                updateLog('"Validate Systems" button pressed.');
+                updateLog('"Burn Wire" button pressed.');
+                sendXbee("com_burn");
               }}
             >
-              Validate System (set to burn wire)
+              Burn Wire
             </Button>
             <Button
               id="startHeartbeatBtn"
               className="m-3"
               variant="secondary"
               size="lg"
+              disabled={!portStatus}
               onClick={() => {
-                sendXbee("com_hrtb");
                 updateLog('"Start Heartbeat" button pressed.');
+                sendXbee("com_hrtb");
               }}
             >
               Start Heartbeat
@@ -45,9 +47,10 @@ export default function ControlPanel({
               className="m-3"
               variant="secondary"
               size="lg"
+              disabled={!portStatus}
               onClick={() => {
-                sendXbee("com_strt");
                 updateLog('"Begin Drop Test" button pressed.');
+                sendXbee("com_strt");
               }}
             >
               Begin Drop Test
@@ -57,19 +60,22 @@ export default function ControlPanel({
               className="m-3"
               variant="secondary"
               size="lg"
+              disabled={!portStatus}
               onClick={() => {
-                sendXbee("com_stop");
                 updateLog('"End Drop Test" button pressed.');
+                sendXbee("com_stop");
               }}
             >
               End Drop Test
             </Button>
             <Button
-              id="closePortBtn"
+              id="openPortBtn"
               className="m-3"
               variant="success"
               size="lg"
+              disabled={portStatus}
               onClick={() => {
+                updateLog('"Open Port" button pressed.');
                 openPort();
               }}
             >
@@ -80,7 +86,9 @@ export default function ControlPanel({
               className="m-3"
               variant="danger"
               size="lg"
+              disabled={!portStatus}
               onClick={() => {
+                updateLog('"Close Port" button pressed.');
                 closePort();
               }}
             >

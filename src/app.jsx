@@ -6,18 +6,11 @@ import PastTestPage from "./components/PastTestPage";
 
 const SerialPort = require("serialport").SerialPort;
 
-var port = null;
-
-// open the serial port on startup
-openSerialPort();
-
-// opens the serial port
-function openSerialPort() {
-  port = new SerialPort({
-    path: "/dev/ttyUSB0",
-    baudRate: 115200,
-  });
-}
+// opens the serial port on startup
+var port = new SerialPort({
+  path: "/dev/ttyUSB0",
+  baudRate: 115200,
+});;
 
 function App() {
   const [logText, setLogText] = useState("--- Beginning of Log ---");
@@ -32,8 +25,8 @@ function App() {
 
     // Handles errors
     port.on("error", (err) => {
-      console.error("Serial port error:", err);
-      updateLog("Serial port error:" + err);
+      console.error("Serial port error: ", err);
+      updateLog("Serial port error: " + err);
     });
 
     // Handles open
@@ -57,8 +50,7 @@ function App() {
       updateLog("ERROR: Attempting to open an already opened port.");
     }
     else {
-      openSerialPort();
-      updateLog("Serial port is opened.");
+      port.open();
     }
   }
 
@@ -69,7 +61,6 @@ function App() {
     }
     else {
       port.close();
-      updateLog("Serial port is closed.");
     }
   }
 
