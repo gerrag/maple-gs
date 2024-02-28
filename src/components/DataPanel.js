@@ -15,14 +15,12 @@ export default function DataPanel({
         <Card.Title>Data Panel</Card.Title>
         <Row className="my-3 text-center">
           <Col sm={2}>
-            <Dropdown>
-              <Dropdown.Toggle
-                id="dataPanelToggle"
-                variant="secondary"
-                onClick={() => {
-                  updateDatasets();
-                }}
-              >
+            <Dropdown
+              onClick={() => {
+                updateDatasets();
+              }}
+            >
+              <Dropdown.Toggle id="dataPanelToggle" variant="secondary">
                 Choose Dataset
               </Dropdown.Toggle>
               <Dropdown.Menu id="dataPanelMenu">
