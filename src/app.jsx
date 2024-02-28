@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Tabs, Tab, Navbar, Container } from "react-bootstrap";
 import HomePage from "./components/HomePage";
 import PastTestPage from "./components/PastTestPage";
+import { getData, getDataMax, getDatasets } from "./database";
 
 const SerialPort = require("serialport").SerialPort;
 
@@ -13,7 +14,6 @@ var port = new SerialPort({
 
 function App() {
   const [logText, setLogText] = useState("--- Beginning of Log ---");
-  console.log(port);
   const [portStatus, setPortStatus] = useState(!!port.port);
 
   if (portStatus) {

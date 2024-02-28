@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row, Col, Button, Dropdown, Card, Form } from "react-bootstrap";
 
-export default function DataPanel() {
+export default function DataPanel({ datasets, accelData, updateData }) {
+  const [chosenDataset, setChosenDataset] = useState("Current Test");
+
   return (
     <Card className="m-4">
       <Card.Body>
@@ -13,12 +15,19 @@ export default function DataPanel() {
                 Choose Dataset
               </Dropdown.Toggle>
               <Dropdown.Menu id="dataPanelMenu">
-                <Dropdown.Item>
-                  Test Item 1
+                <Dropdown.Item onSelect={updateData(0)}>
+                  Current Test
                 </Dropdown.Item>
-                <Dropdown.Item>
-                  Test Item 2
-                </Dropdown.Item>
+                {datasets.map((dataset) => {
+                  <Dropdown.Item
+                    onSelect={() => {
+                      updateData(dataset.datasetID);
+                      setChosenDataset(dataset.name);
+                    }}
+                  >
+                    {dataset.name}
+                  </Dropdown.Item>;
+                })}
               </Dropdown.Menu>
             </Dropdown>
           </Col>
@@ -28,7 +37,7 @@ export default function DataPanel() {
               as="textarea"
               style={{ height: "25px" }}
               disabled
-              value={"Current Data:   None"}
+              value={"Current Dataset: " + chosenDataset}
             ></Form.Control>
           </Col>
         </Row>
@@ -39,7 +48,7 @@ export default function DataPanel() {
               as="textarea"
               style={{ height: "100px" }}
               disabled
-              value={"---- Raw Data ----"}
+              value={"---- Raw Data ----" + datasets + "\n" + accelData}
             ></Form.Control>
           </Col>
         </Row>
