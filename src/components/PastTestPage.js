@@ -31,7 +31,7 @@ export default function PastTestPage() {
 
     // get accel max
     var rawAccelMax = await getDataMax(datasetID);
-    setAccelMax(rawAccelMax.accelMax);
+    setAccelMax(rawAccelMax[0].accelMax);
   }
 
   return (
