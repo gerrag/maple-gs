@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import { Row, Col, Button, Dropdown, Card, Form } from "react-bootstrap";
 
-export default function DataPanel({ datasets, accelData, updateData }) {
-  const [chosenDataset, setChosenDataset] = useState("Current Test");
+export default function DataPanel({
+  datasets,
+  accelData,
+  updateData,
+  updateDatasets,
+}) {
+  const [chosenDataset, setChosenDataset] = useState("None");
 
   return (
     <Card className="m-4">
@@ -11,23 +16,27 @@ export default function DataPanel({ datasets, accelData, updateData }) {
         <Row className="my-3 text-center">
           <Col sm={2}>
             <Dropdown>
-              <Dropdown.Toggle id="dataPanelToggle" variant="secondary">
+              <Dropdown.Toggle
+                id="dataPanelToggle"
+                variant="secondary"
+                onClick={() => {
+                  updateDatasets();
+                }}
+              >
                 Choose Dataset
               </Dropdown.Toggle>
               <Dropdown.Menu id="dataPanelMenu">
-                <Dropdown.Item onSelect={updateData(0)}>
-                  Current Test
-                </Dropdown.Item>
-                {datasets.map((dataset) => {
+                {datasets.map((dataset) => (
                   <Dropdown.Item
-                    onSelect={() => {
+                    key={dataset.datasetID}
+                    onClick={() => {
                       updateData(dataset.datasetID);
                       setChosenDataset(dataset.name);
                     }}
                   >
                     {dataset.name}
-                  </Dropdown.Item>;
-                })}
+                  </Dropdown.Item>
+                ))}
               </Dropdown.Menu>
             </Dropdown>
           </Col>
@@ -48,7 +57,19 @@ export default function DataPanel({ datasets, accelData, updateData }) {
               as="textarea"
               style={{ height: "100px" }}
               disabled
-              value={"---- Raw Data ----" + datasets + "\n" + accelData}
+              value={
+                "---- Raw Data ----" +
+                accelData
+                  .map(
+                    (record) =>
+                      "\n(pos: " +
+                      record.name +
+                      ", value: " +
+                      record.value +
+                      ")"
+                  )
+                  .toString()
+              }
             ></Form.Control>
           </Col>
         </Row>

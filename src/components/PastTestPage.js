@@ -31,7 +31,7 @@ export default function PastTestPage() {
 
     // get accel max
     var rawAccelMax = await getDataMax(datasetID);
-    setAccelMax(rawAccelMax);
+    setAccelMax(rawAccelMax.accelMax);
   }
 
   return (
@@ -42,6 +42,7 @@ export default function PastTestPage() {
             datasets={datasets}
             accelData={accelData}
             updateData={updateData}
+            updateDatasets={updateDatasets}
           />
         </Col>
       </Row>

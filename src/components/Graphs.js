@@ -18,7 +18,7 @@ export default function Graphs({ accelMax, accelData }) {
         <div className="m-5" height="100%" width="100%">
           <h3>Accelerometer Data</h3>
           <Row>
-            <Col sm={10}>
+            <Col>
               <Form.Control
                 id="accelMaxText"
                 as="textarea"
@@ -28,7 +28,7 @@ export default function Graphs({ accelMax, accelData }) {
               ></Form.Control>
             </Col>
           </Row>
-          <LineChart id="accelChart" height={300} width={1400} data={accelData}>
+          <LineChart id="accelChart" height={300} width={1000} data={accelData}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
             <YAxis />
