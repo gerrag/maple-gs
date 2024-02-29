@@ -9,8 +9,6 @@ export default function PastTestPage() {
   const [accelMax, setAccelMax] = useState(0);
   const [accelData, setAccelData] = useState([]);
 
-  updateDatasets();
-
   // update the datasets state
   async function updateDatasets() {
     var sets = await getDatasets();
