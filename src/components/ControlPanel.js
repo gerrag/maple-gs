@@ -5,6 +5,7 @@ import LogTextArea from "./LogTextArea.js";
 export default function ControlPanel({
   logText,
   updateLog,
+  heartbeatText,
   sendXbee,
   portStatus,
   openPort,
@@ -116,7 +117,7 @@ export default function ControlPanel({
               as="textarea"
               style={{ height: "25px" }}
               disabled
-              value={"Last Heartbeat Received:   None"}
+              value={heartbeatText}
             ></Form.Control>
           </Col>
         </Row>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Tabs, Tab, Navbar, Container } from "react-bootstrap";
 import HomePage from "./components/HomePage";
 import PastTestPage from "./components/PastTestPage";
-import { getData, getDataMax, getDatasets } from "./database";
+import { insertDataset, insertMaxAccel, insertAccelEntry } from "./database";
 
 const SerialPort = require("serialport").SerialPort;
 
@@ -15,11 +15,20 @@ var port = new SerialPort({
 function App() {
   const [logText, setLogText] = useState("--- Beginning of Log ---");
   const [portStatus, setPortStatus] = useState(!!port.port);
+  const [heartbeatText, setHeartbeatText] = useState(
+    "Last Heartbeat Received:   None"
+  );
+  const [curMaxAccelData, setCurMaxAccelData] = useState(0);
+  const [curAccelData, setCurAccelData] = useState([]);
+
+  var updatableAccelData = [];
+  var datasetID;
 
   if (portStatus) {
     // Listen for data from the serial port
     port.on("data", (data) => {
       updateLog("Received data: " + data.toString());
+      handleData(data.toString());
     });
 
     // Handles errors
@@ -58,6 +67,74 @@ function App() {
       updateLog("ERROR: Attempting to close an already closed port.");
     } else {
       port.close();
+    }
+  }
+
+  // handles incoming data from serialport
+  async function handleData(msg) {
+    if (msg.startsWith("x") && msg.endsWith("q")) {
+      var command = msg.slice(1, -1).split("_");
+
+      // handle acks
+      if (command[0] === "ack") {
+        // heartbeat
+        if (command[1] === "hrtb") {
+          setHeartbeatText("Last Heartbeat Received:   " + getCurDateTime());
+        }
+        // burn wire
+        else if (command[1] === "burn") {
+          console.log("ACK Received: burn");
+          updateLog("ACK Received: burn");
+        }
+        // start test
+        else if (command[1] === "strt") {
+          console.log("ACK Received: strt");
+          updateLog("ACK Received: strt");
+
+          // Create new dataset
+          datasetName = getCurDateTime();
+          datasetID = await insertDataset(datasetName);
+          // TODO make sure datasetID is an integer
+        } else {
+          console.error("Could not identify ACK message: " + msg);
+          updateLog("Could not identify ACK message: " + msg);
+        }
+      }
+
+      // handle acc data
+      else if (command[0] === "acc") {
+        if (!isNaN(command[1]) && !isNaN(command[2])) {
+          // update displayed data
+          updatableAccelData.push({
+            name: parseInt(command[1]),
+            value: parseFloat(command[2]),
+          });
+          setCurAccelData(updatableAccelData);
+          // insert data into database
+          await insertAccelEntry(
+            datasetID,
+            parseInt(command[1]),
+            parseFloat(command[2])
+          );
+        } else if (command[1] === "max" && !isNaN(command[2])) {
+          // update displayed data
+          setCurMaxAccelData(parseFloat(command[2]));
+          // insert max data into database
+          await insertMaxAccel(datasetID,parseFloat(command[2]));
+        } else {
+          console.error("Could not identify acc message: " + msg);
+          updateLog("Could not identify acc message: " + msg);
+        }
+      }
+
+      // otherwise
+      else {
+        console.error("Could not identify message: " + msg);
+        updateLog("Could not identify message: " + msg);
+      }
+    } else {
+      console.error("Could not identify packet: " + msg);
+      updateLog("Could not identify packet: " + msg);
     }
   }
 
@@ -117,11 +194,11 @@ function App() {
       " " +
       curDate.toTimeString().substring(0, 8) +
       curDate.toISOString().substring(19, 23);
-    return "[" + dateString + "] ";
+    return "[" + dateString + "]";
   };
 
   const updateLog = (msg) => {
-    setLogText(logText + "\n" + getCurDateTime() + msg);
+    setLogText(logText + "\n" + getCurDateTime() + " " + msg);
   };
 
   return (
@@ -137,10 +214,13 @@ function App() {
           <HomePage
             logText={logText}
             updateLog={updateLog}
+            heartbeatText={heartbeatText}
             sendXbee={sendXbee}
             portStatus={portStatus}
             openPort={openPort}
             closePort={closePort}
+            accelData={curAccelData}
+            accelMax={curMaxAccelData}
           />
         </Tab>
         <Tab eventKey="pastTest" title="pastTest">

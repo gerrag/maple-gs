@@ -2,15 +2,17 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 import ControlPanel from "./ControlPanel";
 import Graphs from "./Graphs";
-import { log } from "util";
 
 export default function HomePage({
   logText,
   updateLog,
+  heartbeatText,
   sendXbee,
   portStatus,
   openPort,
   closePort,
+  accelData,
+  accelMax,
 }) {
   return (
     <div>
@@ -19,6 +21,7 @@ export default function HomePage({
           <ControlPanel
             logText={logText}
             updateLog={updateLog}
+            heartbeatText={heartbeatText}
             sendXbee={sendXbee}
             portStatus={portStatus}
             openPort={openPort}
@@ -28,7 +31,7 @@ export default function HomePage({
       </Row>
       <Row>
         <Col>
-          <Graphs />
+          <Graphs accelData={accelData} accelMax={accelMax} />
         </Col>
       </Row>
     </div>

@@ -67,3 +67,59 @@ export function getDataMax(datasetID) {
     });
   });
 }
+
+export function insertDataset(date) {
+  return new Promise((resolve, reject) => {
+    var queryString =
+      'INSERT INTO datasets (datasetID, name, accelMax) VALUES (null, "' +
+      date +
+      '", null)';
+    connection.query(queryString, (error, results, fields) => {
+      if (error) {
+        console.error("ERROR with DB: " + error);
+        reject(error);
+        return;
+      }
+      resolve(results);
+    });
+  });
+}
+
+export function insertMaxAccel(datasetID, maxAccel) {
+  return new Promise((resolve, reject) => {
+    var queryString =
+      "UPDATE datasets SET accelMax = " +
+      maxAccel +
+      " WHERE datasetID = " +
+      datasetID;
+    connection.query(queryString, (error, results, fields) => {
+      if (error) {
+        console.error("ERROR with DB: " + error);
+        reject(error);
+        return;
+      }
+      resolve(results);
+    });
+  });
+}
+
+export function insertAccelEntry(datasetID, position, value) {
+  return new Promise((resolve, reject) => {
+    var queryString =
+      "INSERT INTO accelData (dataID, placement, value, datasetID) VALUES (null, " +
+      position +
+      ", " +
+      value +
+      ", " +
+      datasetID +
+      ")";
+    connection.query(queryString, (error, results, fields) => {
+      if (error) {
+        console.error("ERROR with DB: " + error);
+        reject(error);
+        return;
+      }
+      resolve(results);
+    });
+  });
+}
