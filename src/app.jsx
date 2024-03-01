@@ -20,9 +20,9 @@ function App() {
   );
   const [curMaxAccelData, setCurMaxAccelData] = useState(0);
   const [curAccelData, setCurAccelData] = useState([]);
+  const [datasetID, setDatasetID] = useState(null);
 
   var updatableAccelData = [];
-  var datasetID;
 
   if (portStatus) {
     // Listen for data from the serial port
@@ -92,9 +92,8 @@ function App() {
           updateLog("ACK Received: strt");
 
           // Create new dataset
-          datasetName = getCurDateTime();
-          datasetID = await insertDataset(datasetName);
-          // TODO make sure datasetID is an integer
+          var insertPacket = await insertDataset(getCurDateTime());
+          setDatasetID(insertPacket.insertId);
         } else {
           console.error("Could not identify ACK message: " + msg);
           updateLog("Could not identify ACK message: " + msg);
